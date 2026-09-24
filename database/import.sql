@@ -1244,7 +1244,7 @@ CREATE TABLE `web_public` (
 --
 
 INSERT INTO `web_public` (`id`, `currency_code`, `logo`, `app_name`, `custom_home`, `is_custom_home`, `meta_description`, `currency_symbol`, `chatbot_screen_tutorial`, `broadcast_screen_tutorial`, `home_page_tutorial`, `login_header_footer`, `exchange_rate`, `google_client_id`, `google_login_active`, `rtl`) VALUES
-(1, 'USD', 'FOJPDz2ggPeya6yDTBfhkKtxkubH05WZ.png', 'whatsCRM', 'https://google.com', 0, 'des updated', '$', 'https://youtu.be/Wg_23HLxdHc?si=yv5aIMY1OsnwUrNy', 'https://youtu.be/Wg_23HLxdHc?si=yv5aIMY1OsnwUrNy', 'https://youtu.be/rFNoXYE_efo', 1, '1', 'xxxxxxxxxxxxxxx', 1, 0);
+(1, 'USD', 'FOJPDz2ggPeya6yDTBfhkKtxkubH05WZ.png', 'WhatsQubatiBot', 'https://google.com', 0, 'WhatsQubatiBot is an all-in-one cloud-based platform for WhatsApp, Instagram, and Telegram marketing and automation.', '$', '', '', '', 1, '1', 'xxxxxxxxxxxxxxx', 1, 0);
 
 --
 -- Indexes for dumped tables

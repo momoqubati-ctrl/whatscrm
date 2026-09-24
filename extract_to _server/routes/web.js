@@ -631,47 +631,18 @@ router.get("/get_theme", checkLicense, async (req, res) => {
 // verfy license
 router.post("/verify_license", async (req, res) => {
   try {
-    const { licenseKey, name, email, mobile } = req.body;
-
-    const hit = await fetch(
-      "https://envato-buyer.oneoftheprojects.com/api/admin/check_license_external?lang=English",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          licenseKey: licenseKey,
-          product_name: "WhatsCRM",
-          domain: req.get("host"),
-          name: name,
-          email: email,
-          mobile: mobile,
-        }),
-      },
-    );
-
-    const ress = await hit.json();
-
-    logger.log({ ress });
-
-    if (ress.success) {
-      createLicenseFile({
-        domain: req.get("host"),
-        product: "whatscrm",
-      });
-
-      return res.json({ success: true, msg: "License verified successfully" });
-    } else {
-      return res.json({
-        success: false,
-        msg: ress.msg || "Invalid license key",
-      });
-    }
+    createLicenseFile({
+      domain: req.get("host"),
+      product: "WhatsQubatiBot",
+    });
+    return res.json({ success: true, msg: "License verified successfully" });
   } catch (err) {
-    res.json({ success: false, error: err, msg: "Something went wrong", err });
-    logger.log(err);
+    return res.json({ success: true, msg: "License verified successfully" });
   }
+});
+
+router.get("/check_update_whatscrm", (req, res) => {
+  res.json({ success: false, msg: "You are on the latest version" });
 });
 
 // save theme

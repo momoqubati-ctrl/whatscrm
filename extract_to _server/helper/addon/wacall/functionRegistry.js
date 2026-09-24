@@ -456,7 +456,7 @@ async function sendWhatsappFunc(params) {
     const nodeData = params.currentNode.data || params.currentNode;
 
     const baseUrl = substituteVariables(
-      nodeData.baseUrl || "https://crm.oneoftheprojects.com",
+      nodeData.baseUrl || process.env.BACKURI || "http://localhost:3004",
       params,
     );
     const fullUrl = `${baseUrl}/api/qr/rest/send_message`;
