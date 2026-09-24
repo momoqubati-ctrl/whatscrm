@@ -1,0 +1,61 @@
+Requirements
+Shared hosting with Node.js App maker or VPS (recommended)
+MySQL database
+Domain or Subdomain
+
+Create the application with Node [20.18.3] or higher by running the server.js file (located at the root of your VPS), and start it on the port you configured in the .env.
+Check TUT install video:
+https://www.youtube.com/watch?v=FbAbltEPDHQ
+
+###############################################################################################################################################################
+THIS IS THE MOST IMPORTANT STEP AND REQUIRES GREAT ATTENTION AND CARE!
+###############################################################################################################################################################
+
+Step 1: Before uploading the file to your server, unzip it into a folder on your computer and edit the main.e694f0ef.js file located in the folder: ..client/public/static/js/
+
+Find and Replace the 7 lines: yourdomain.com with your own domain.
+
+
+############################################################################################################################################################
+
+Step 2: Create a MySQL database on your VPS and import the import.sql file found inside the database folder.
+
+############################################################################################################################################################
+
+Step 3: Fill in all the settings in the .env file located inside the upload_this folder with your parameters:
+
+HOST=127.0.0.1
+PORT= // Port where your application will run, by default the system uses port 3010
+DBHOST=localhost
+DBNAME=// Name of the database you created 
+DBUSER=// Database user name
+DBPASS=// Database password
+DBPORT=3306 // Do not change
+JWTKEY=NCRUp5hKovUAcZd9OwIw0BCKmjZj9JxpNCRUp5hKovUAcZd9OwIw0BCKmjZj9JxpNCRUp5hKovUAcZd9OwIw0BCKmjZj9Jxp // Do not change
+FRONTENDURI=// The domain where the application will run (MUST BE EXACTLY THE SAME ADDRESS YOU ENTERED IN THE main.e694f0ef.js FILE IN STEP 1)
+BACKURI=// The domain where the application will run (MUST BE EXACTLY THE SAME ADDRESS YOU ENTERED IN THE main.e694f0ef.js FILE IN STEP 1)
+STRIPE_LANG=en (Language in which the STRIPE payment system should run)
+
+###########################################################################################################################################################
+
+Step 4: After making these configurations on your local machine (except step 2), compress the folder where you made the changes related to Step 1 and Step 3 (if you did not rename it, it should be upload_this), upload it to your VPS, and unzip it at the root.
+
+############################################################################################################################################################
+
+Step 5: Create the application with Node [20.18.3] or higher by running the server.js file (located at the root of your VPS), and start it on the port you configured in the .env.
+Check TUT install video:
+https://www.youtube.com/watch?v=FbAbltEPDHQ
+
+############################################################################################################################################################
+
+Step 6: If necessary, configure the proxy from http://127.0.0.1:PORT (port you configured in .env) to https://(The domain where the application will run)
+
+#############################################################################################################################################################
+
+Note:
+Admin access: https://yourdomain.com/admin/login
+Login: admin@admin.com
+Password: Password@123
+
+
+###############################################################################################################################################################
