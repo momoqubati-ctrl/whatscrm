@@ -156,10 +156,14 @@ app.use(
         return callback(new Error("Not allowed by CORS"));
       }
 
-      const isAllowed = allowedHostnames.includes(incomingHostname);
+      const isAllowed =
+        allowedHostnames.includes(incomingHostname) ||
+        incomingHostname.endsWith(".onrender.com") ||
+        incomingHostname === "localhost" ||
+        incomingHostname === "127.0.0.1";
 
       if (isAllowed) return callback(null, true);
-      return callback(new Error("Not allowed by CORS"));
+      return callback(null, false);
     },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
