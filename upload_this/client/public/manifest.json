@@ -1,6 +1,6 @@
 {
-  "short_name": "WhatsCRM",
-  "name": "A cloud based WhatsApp Marketing Platform",
+  "short_name": "WhatsQubatiBot",
+  "name": "WhatsQubatiBot",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#22a454",
+  "theme_color": "#000000",
   "background_color": "#ffffff"
 }
