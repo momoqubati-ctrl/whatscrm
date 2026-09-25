@@ -166,12 +166,13 @@ router.get("/get_all_agent", validateAgent, async (req, res) => {
       const check = getSession(instance.uniqueId);
 
       if (!check) {
-        // If no session, update status to "INACTIVE"
-        await query(`UPDATE instance SET status = ? WHERE uniqueId = ?`, [
-          "INACTIVE",
-          instance.uniqueId,
-        ]);
-        instance.status = "INACTIVE"; // Update status in response as well
+        if (instance.status === "ACTIVE") {
+          createSession(instance.uniqueId).catch((err) =>
+            logger.error(`Error auto-reconnecting session ${instance.uniqueId}:`, err),
+          );
+        } else {
+          instance.status = "INACTIVE";
+        }
       }
     }
 
@@ -209,12 +210,13 @@ router.get("/get_all", validateUser, async (req, res) => {
       const check = getSession(instance.uniqueId);
 
       if (!check) {
-        // If no session, update status to "INACTIVE"
-        await query(`UPDATE instance SET status = ? WHERE uniqueId = ?`, [
-          "INACTIVE",
-          instance.uniqueId,
-        ]);
-        instance.status = "INACTIVE"; // Update status in response as well
+        if (instance.status === "ACTIVE") {
+          createSession(instance.uniqueId).catch((err) =>
+            logger.error(`Error auto-reconnecting session ${instance.uniqueId}:`, err),
+          );
+        } else {
+          instance.status = "INACTIVE";
+        }
       }
     }
 

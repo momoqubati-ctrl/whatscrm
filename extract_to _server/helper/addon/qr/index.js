@@ -117,8 +117,8 @@ async function loadAuthStateModule() {
   await loadConfigFromDatabase();
 
   if (STORAGE_METHOD === "mysql" && !useMySQLAuthState) {
-    const mysqlBaileys = require("mysql-baileys");
-    useMySQLAuthState = mysqlBaileys.useMySQLAuthState;
+    const { useMySQLAuthState: mySqlAuth } = require("./mysqlAuthState");
+    useMySQLAuthState = mySqlAuth;
   } else if (STORAGE_METHOD === "mongodb" && !useMongoDBAuthState) {
     const mongoSession = require("./mongoSession");
     useMongoDBAuthState = mongoSession.useMongoDBAuthState;
@@ -185,10 +185,7 @@ async function getAuthState(sessionId) {
   switch (STORAGE_METHOD) {
     case "mysql":
       newLogger.log(`Using MySQL storage for session: ${sessionId}`);
-      return await useMySQLAuthState({
-        ...MYSQL_CONFIG,
-        session: sessionId,
-      });
+      return await useMySQLAuthState(sessionId);
 
     case "mongodb":
       newLogger.log(`Using MongoDB storage for session: ${sessionId}`);

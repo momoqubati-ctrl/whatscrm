@@ -255,6 +255,15 @@ const server = app.listen(process.env.PORT || 3010, () => {
     initCampaign();
     initTele();
     initQrCampaignLoop();
+
+    // Keep-alive self-ping to prevent sleep on cloud platforms (Render)
+    const hostUri = process.env.BACKURI || process.env.FRONTENDURI;
+    if (hostUri && hostUri.startsWith("http") && !hostUri.includes("localhost")) {
+      const pingTarget = `${hostUri.replace(/\/$/, "")}/api/web/ping`;
+      setInterval(() => {
+        fetch(pingTarget).catch(() => {});
+      }, 5 * 60 * 1000);
+    }
   }, 1000);
 });
 

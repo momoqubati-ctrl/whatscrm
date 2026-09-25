@@ -645,6 +645,10 @@ router.get("/check_update_whatscrm", (req, res) => {
   res.json({ success: false, msg: "You are on the latest version" });
 });
 
+router.get("/ping", (req, res) => {
+  res.json({ success: true, timestamp: Date.now(), msg: "pong" });
+});
+
 // save theme
 router.post("/save_theme", adminValidator, async (req, res) => {
   try {
