@@ -1484,7 +1484,18 @@ async function processSendMessage({
 
       // finding new id
       const e = edges.find((e) => e.source === node.id);
-      if (!e) return {};
+      if (!e) {
+        // Leaf / End node reached: clear session so subsequent messages restart cleanly
+        try {
+          await query(
+            `DELETE FROM flow_session WHERE flow_id = ? AND uid = ? AND sender_mobile = ?`,
+            [element?.flow_id, uid, message?.senderMobile],
+          );
+        } catch (delErr) {
+          logger.log(delErr);
+        }
+        return {};
+      }
       const n = nodes.find((n) => n.id === e.target);
 
       if (n) {
