@@ -538,65 +538,79 @@ router.get("/get_origians", validateUser, async (req, res) => {
     ];
 
     if (addons?.includes("QR")) {
-      const instances = await query(
-        `SELECT * FROM instance WHERE uid = ? AND status = ?`,
-        [req.decode.uid, "ACTIVE"],
-      );
+      try {
+        const instances = await query(
+          `SELECT * FROM instance WHERE uid = ? AND status = ?`,
+          [req.decode.uid, "ACTIVE"],
+        );
 
-      const correctOrign = instances.map((x) => ({
-        title: x.number,
-        code: "QR",
-        data: x,
-      }));
+        const correctOrign = instances.map((x) => ({
+          title: x.number || x.title || "QR Instance",
+          code: "QR",
+          data: x,
+        }));
 
-      origins.push(...correctOrign);
+        origins.push(...correctOrign);
+      } catch (qrErr) {
+        logger.log(qrErr);
+      }
     }
 
     if (addons?.includes("TELEGRAM")) {
-      const teleSess = await query(
-        `SELECT * FROM telegram_session WHERE uid = ? AND status = ?`,
-        [req.decode.uid, "active"],
-      );
+      try {
+        const teleSess = await query(
+          `SELECT * FROM telegram_session WHERE uid = ? AND status = ?`,
+          [req.decode.uid, "active"],
+        );
 
-      const correctOrign =
-        teleSess?.map((x) => ({
-          title: x.data ? JSON.parse(x.data)?.number : "NOT USABLE",
-          code: "TELEGRAM",
-          data: x,
-        })) || [];
+        const correctOrign =
+          teleSess?.map((x) => ({
+            title: x.data ? JSON.parse(x.data)?.number : "NOT USABLE",
+            code: "TELEGRAM",
+            data: x,
+          })) || [];
 
-      origins.push(...correctOrign);
+        origins.push(...correctOrign);
+      } catch (teleErr) {
+        logger.log(teleErr);
+      }
     }
 
-    // In get_origians — add Instagram accounts
     if (addons?.includes("INSTAGRAM")) {
-      // Instagram is always available (no addon check needed)
-      const igAccounts = await query(
-        `SELECT * FROM instagram_accounts WHERE uid = ?`,
+      try {
+        const igAccounts = await query(
+          `SELECT * FROM instagram_accounts WHERE uid = ?`,
+          [req.decode.uid],
+        );
+
+        const igOrigins = igAccounts.map((x) => ({
+          title: `@${x.username || x.user_id}`,
+          code: "INSTAGRAM",
+          data: x,
+        }));
+
+        origins.push(...igOrigins);
+      } catch (igErr) {
+        logger.log(igErr);
+      }
+    }
+
+    try {
+      const messengerAccounts = await query(
+        `SELECT * FROM messenger_accounts WHERE uid = ?`,
         [req.decode.uid],
       );
 
-      const igOrigins = igAccounts.map((x) => ({
-        title: `@${x.username || x.user_id}`,
-        code: "INSTAGRAM",
+      const messengerOrigins = messengerAccounts.map((x) => ({
+        title: x.page_name,
+        code: "MESSENGER",
         data: x,
       }));
 
-      origins.push(...igOrigins);
+      origins.push(...messengerOrigins);
+    } catch (msgErr) {
+      logger.log(msgErr);
     }
-
-    const messengerAccounts = await query(
-      `SELECT * FROM messenger_accounts WHERE uid = ?`,
-      [req.decode.uid],
-    );
-
-    const messengerOrigins = messengerAccounts.map((x) => ({
-      title: x.page_name,
-      code: "MESSENGER",
-      data: x,
-    }));
-
-    origins.push(...messengerOrigins);
 
     res.json({ data: origins, success: true });
   } catch (err) {
